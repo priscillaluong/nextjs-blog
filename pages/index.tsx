@@ -4,24 +4,24 @@ import Date from "../components/date";
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import { getSortedPostsData } from "../lib/posts";
+import { GetStaticProps } from 'next'
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
-  return {
-    props: {
-      allPostsData,
-    },
-  };
-}
-
-export default function Home({ allPostsData }) {
+export default function Home({
+  allPostsData
+}: {
+  allPostsData: {
+    date: string
+    title: string
+    id: string
+  }[]
+}) {
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
       </Head>
       <section className={utilStyles.headingMd}>
-        <p>Hi, I'm Priscilla. I'm a Junior Frontend Engineer at Gymshark.</p>
+      <p>Hi, I'm Priscilla. I'm a Junior Frontend Engineer at Gymshark.</p>
         <Link href="/posts/first-post">Go to another page!</Link>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
@@ -39,5 +39,14 @@ export default function Home({ allPostsData }) {
         </ul>
       </section>
     </Layout>
-  );
+  )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = getSortedPostsData()
+  return {
+    props: {
+      allPostsData
+    }
+  }
 }
